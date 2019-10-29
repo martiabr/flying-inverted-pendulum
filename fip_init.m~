@@ -29,5 +29,5 @@ Q_lat = diag([1, 0, 0, 1, 0]);
 R_lat = 1;
 
 [K_vert, S_vert, P_vert] = lqr(ss_vert, Q_vert, R_vert);
-[K_lat, S_lat, P_lat] = lqr(ss_lat, Q_lat, R_lat);
+[K_lat, S_l, P_vert] = lqr(ss_vert, Q_vert, R_vert);
 
