@@ -6,8 +6,8 @@ g = 9.81;
 L = 1;  % length to center of mass of pendulum
 
 %% Simulation parameters:
-T = 6;
-h = 0.01;
+T = 4;
+h = 0.02;
 K = T / h;
 
 %% Initial values:

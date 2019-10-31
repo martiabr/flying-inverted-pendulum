@@ -8,7 +8,8 @@ ymax = max(out.x.data(2, :, :));
 zmin = min(out.x.data(3, :, :));
 zmax = max(out.x.data(3, :, :)) + 2 * L;
 
-figure(1);
+fig = figure(1);
+filename = 'fip.gif';
 for k = 1:K
     x = out.x.data(1, :, k);
     y = out.x.data(2, :, k);
@@ -33,5 +34,17 @@ for k = 1:K
     axis([xmin, xmax, ymin, ymax, zmin, zmax]);
     hold off
     drawnow
-    pause(0.01);
+    %pause(0.001);
+    
+    % Capture the plot as an image 
+    frame = getframe(fig); 
+    im = frame2im(frame); 
+    [imind,cm] = rgb2ind(im,256); 
+    
+    % Write to the GIF File 
+    if k == 1 
+        imwrite(imind,cm,filename,'gif', 'Loopcount',inf, 'DelayTime', h); 
+    else 
+        imwrite(imind,cm,filename,'gif','WriteMode','append', 'DelayTime', h); 
+    end 
 end
