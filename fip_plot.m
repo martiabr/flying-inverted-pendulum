@@ -1,13 +1,37 @@
 %% FIP plot
     
 %% FIP animation
-figure(1);
+xmin = min(out.x.data(1, :, :));
+xmax = max(out.x.data(1, :, :));
+ymin = min(out.x.data(2, :, :));
+ymax = max(out.x.data(2, :, :));
+zmin = min(out.x.data(3, :, :));
+zmax = max(out.x.data(3, :, :)) + 2 * L;
 
-axis([min(out.x.data(1, :, :)), max(out.x.data(1, :, :)), min(out.x.data(2, :, :)), max(out.x.data(2, :, :)), min(out.x.data(3, :, :)), max(out.x.data(3, :, :))]);
-grid on
-hold on
+figure(1);
 for k = 1:K
-    plot3(out.x.data(1, :, k), out.x.data(2, :, k), out.x.data(3, :, k), 'o');
+    x = out.x.data(1, :, k);
+    y = out.x.data(2, :, k);
+    z = out.x.data(3, :, k);
+    plot3(x, y, z, 'o');
+    
+    grid on
+    hold on
+    
+    % Find position of pendulum tip in inertial frame:
+    % (assuming center of mass in middle of pendulum)
+    r = out.rs.data(k, 1);
+    s = out.rs.data(k, 2);
+    r_i = x + 2 * r;
+    s_i = y + 2 * s;
+    zeta = sqrt(L^2 - r^2 - s^2);
+    zeta_i = z + 2 * zeta;
+    
+    plot3(r_i, s_i, zeta_i, 'o');
+    plot3([x r_i], [y s_i], [z zeta_i], '-');
+    
+    axis([xmin, xmax, ymin, ymax, zmin, zmax]);
+    hold off
     drawnow
     pause(0.01);
 end

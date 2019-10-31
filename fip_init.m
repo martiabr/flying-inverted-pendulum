@@ -3,7 +3,7 @@ clear;
 
 %% Model parameters:
 g = 9.81;
-L = 1;
+L = 1;  % length to center of mass of pendulum
 
 %% Simulation parameters:
 T = 6;
