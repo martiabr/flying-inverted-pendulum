@@ -4,7 +4,11 @@ clear;
 %% Model parameters:
 g = 9.81;
 L = 1;
-T = 20;
+
+%% Simulation parameters:
+T = 6;
+h = 0.01;
+K = T / h;
 
 %% Initial values:
 x0 = [0.1; -0.2; 0.5];
@@ -30,8 +34,8 @@ A_y = [0 1 0 0 0;
          0 0 -g 0 0;
          0 0 0 0 0;
          0 0 0 0 1;
-         0 0 g g/L 0]; % x x_d beta r rd (5)
-B_y = [0; 0; 1; 0; 0]; % w_y
+         0 0 g g/L 0]; % y y_d gamma s sd (5)
+B_y = [0; 0; 1; 0; 0]; % w_x
 C_y = eye(5);
 ss_y = ss(A_y, B_y, C_y, 0);
 
