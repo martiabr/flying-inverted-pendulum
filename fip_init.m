@@ -3,7 +3,7 @@ clear;
 
 %% Model parameters:
 g = 9.81;
-L = 1;  % length to center of mass of pendulum
+L = 0.5;  % length to center of mass of pendulum
 
 %% Simulation parameters:
 T = 4;
@@ -13,9 +13,11 @@ K = T / h;
 %% Initial values:
 x0 = [0.1; -0.2; 0.5];
 xd0 = [0; 0; 0];
+% TODO: add the other init values
 
 %% LQR gain calculation:
 % x y z xd yd zd gamma beta alpha r s rd sd (13)
+% TODO: add other setpoints
 A_z = [0 1; 0 0]; % z z_d (2)
 B_z = [0; 1]; % a (1)
 C_z = eye(2);
