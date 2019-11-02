@@ -9,7 +9,7 @@ end
 animate = true;
 write_gif = false;
 
-L_arm = 0.1;
+L_arm = 0.25;
 
 xmin = min(out.x.data(1, :, :) - L_arm);
 xmax = max(out.x.data(1, :, :) + L_arm);
@@ -36,11 +36,11 @@ if animate
         R_x = [1 0 0; 0 cos(gamma) -sin(gamma); 0 sin(gamma) cos(gamma)];
         R = R_x * R_y * R_z;
         R_inv = R';
-        alpha;
         p1 = R_inv * [L_arm; 0; 0] + p;
         p2 = R_inv * [0; L_arm; 0] + p;
         p3 = R_inv * [-L_arm; 0; 0] + p;
         p4 = R_inv * [0; -L_arm; 0] + p;
+        p5 = R_inv * [0; 0; L_arm] + p;
 
         % Find position of pendulum tip in inertial frame:
         % (assuming center of mass in middle of pendulum)
@@ -56,21 +56,24 @@ if animate
         grid on
         hold on
         
-        plot3(p1(1), p1(2), p1(3), 'Marker', 'o', 'Color', 'r');
-        plot3(p2(1), p2(2), p2(3), 'Marker', 'o', 'Color', 'r');
-        plot3(p3(1), p3(2), p3(3), 'Marker', 'o', 'Color', 'r');
-        plot3(p4(1), p4(2), p4(3), 'Marker', 'o', 'Color', 'r');
+        plot3(p1(1), p1(2), p1(3), 'Marker', 'o', 'Color', 'b');
+        plot3(p2(1), p2(2), p2(3), 'Marker', 'o', 'Color', 'b');
+        plot3(p3(1), p3(2), p3(3), 'Marker', 'o', 'Color', 'b');
+        plot3(p4(1), p4(2), p4(3), 'Marker', 'o', 'Color', 'b');
         plot3([x p1(1)], [y p1(2)], [z p1(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
         plot3([x p2(1)], [y p2(2)], [z p2(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
         plot3([x p3(1)], [y p3(2)], [z p3(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
         plot3([x p4(1)], [y p4(2)], [z p4(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
+        plot3([x p5(1)], [y p5(2)], [z p5(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
         
         plot3(r_i, s_i, zeta_i, 'Marker', 'o', 'Color', 'r');
-        plot3([x r_i], [y s_i], [z zeta_i], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
-
-        axis([-1.5, 1.5, -1.5, 1.5, -1.5, 1.5]);
-        hold off
+        plot3([x r_i], [y s_i], [z zeta_i], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'r');
+        
+        axis equal
+        axis([-2, 2, -3.5, 0.5, -2, 2]);
+        %axis tight
         drawnow
+        hold off
         %pause(0.01);
 
         if write_gif

@@ -11,8 +11,13 @@ h = 0.02;
 K = T / h;
 
 %% Initial values:
-x0 = [0.1; -0.2; 0.5];
+x0 = [1; -3; 0];
 xd0 = [0; 0; 0];
+attitude0 = [0; 0; 0.0];
+r0 = 0.01;
+s0 = 0;
+rd0 = 0;
+sd0 = 0;
 % TODO: add the other init values
 
 %% LQR gain calculation:
