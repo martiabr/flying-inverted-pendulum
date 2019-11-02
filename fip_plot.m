@@ -8,10 +8,14 @@ end
 %% FIP animation
 animate = true;
 animate_trajectories = true;
-write_gif = false;
+rotate = true;
+write_gif = true;
 
 L_arm = 0.25;
 p_traj = [];
+elevation = 20;
+azimuth_start = 20;
+azimuth_end = 70;
 
 xmin = min(out.x.data(1, :, :) - L_arm);
 xmax = max(out.x.data(1, :, :) + L_arm);
@@ -77,15 +81,18 @@ if animate
         plot3([x r_i], [y s_i], [z zeta_i], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'r');
         
         if animate_trajectories
-            plot3(p_traj(1, :), p_traj(2, :), p_traj(3, :), 'LineStyle', '--', 'LineWidth', 1, 'Color', 'k');
+            plot3(x0(1), x0(2), x0(3), 'Marker', 'x', 'Color', 'k');
+            plot3(p_traj(1, :), p_traj(2, :), p_traj(3, :), 'LineStyle', ':', 'LineWidth', 1, 'Color', 'k');
         end
         
         axis equal
-        axis([-2, 2, -3.5, 0.5, -2, 2]);
+        axis([-0.5, 2.5, -0.5, 3.5, -2, 2]);
         %axis tight
+        
+        view(k/K * (azimuth_end - azimuth_start) + azimuth_start, elevation);
+        
         drawnow
         hold off
-        %pause(0.01);
 
         if write_gif
             % Capture the plot as an image 

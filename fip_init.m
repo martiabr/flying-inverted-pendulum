@@ -11,10 +11,10 @@ h = 0.02;
 K = T / h;
 
 %% Initial values:
-x0 = [0; 0; 0];
+x0 = [2; 3; -2];
 xd0 = [0; 0; 0];
 attitude0 = [0; 0; 0.0];
-r0 = 0.08;
+r0 = 0;
 s0 = 0;
 rd0 = 0;
 sd0 = 0;
@@ -22,7 +22,6 @@ sd0 = 0;
 %% LQR gain calculation:
 % x y z xd yd zd gamma beta alpha r s rd sd (13)
 % TODO: add other setpoints
-% TODO: add integral action
 A_z = [0 1; 0 0]; % z z_d (2)
 B_z = [0; 1]; % a (1)
 C_z = eye(2);
