@@ -9,13 +9,17 @@ end
 animate = true;
 animate_trajectories = true;
 rotation = 1;  % 0: default, 1: rotation, 2: xz, 3: yz, 4: xy
-write_gif = false;
+write_gif = true;
 
 L_arm = 0.25;
 p_traj = [];
 elevation = 20;
 azimuth_start = 20;
 azimuth_end = 70;
+
+c1 = [66, 80, 207] / 256;
+c2 = [201, 40, 51] / 256;
+c3 = [168, 56, 201] / 256;
 
 xmin = min(out.x.data(1, :, :) - L_arm);
 xmax = max(out.x.data(1, :, :) + L_arm);
@@ -39,7 +43,6 @@ if animate
         gamma = out.attitude.data(k, 3);
         
         % TODO: nice colors
-        % TODO: different angles (moving, xy, xz, yz, ...)
         
         % Find position of rotors:
         R_z = [cos(alpha) -sin(alpha) 0; sin(alpha) cos(alpha) 0; 0 0 1];
@@ -63,28 +66,29 @@ if animate
         zeta = sqrt(L^2 - r^2 - s^2);
         zeta_i = z + 2 * zeta;
 
-        plot3(x, y, z, 'Marker', 'o', 'Color', 'r');
+        plot3(x, y, z, 'Marker', 'o', 'Color', c2, 'MarkerFaceColor', c2);
         grid on
         hold on
         
-        plot3(p1(1), p1(2), p1(3), 'Marker', 'o', 'Color', 'b');
-        plot3(p2(1), p2(2), p2(3), 'Marker', 'o', 'Color', 'b');
-        plot3(p3(1), p3(2), p3(3), 'Marker', 'o', 'Color', 'b');
-        plot3(p4(1), p4(2), p4(3), 'Marker', 'o', 'Color', 'b');
-        plot3([x p1(1)], [y p1(2)], [z p1(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
-        plot3([x p2(1)], [y p2(2)], [z p2(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
-        plot3([x p3(1)], [y p3(2)], [z p3(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
-        plot3([x p4(1)], [y p4(2)], [z p4(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
-        %plot3([x p5(1)], [y p5(2)], [z p5(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
-        %plot3([x p6(1)], [y p6(2)], [z p6(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
+        plot3(p1(1), p1(2), p1(3), 'Marker', 'o', 'Color', c2, 'MarkerSize', 10, 'LineWidth', 2);
+        plot3(p2(1), p2(2), p2(3), 'Marker', 'o', 'Color', c2, 'MarkerSize', 10, 'LineWidth', 2);
+        plot3(p3(1), p3(2), p3(3), 'Marker', 'o', 'Color', c2, 'MarkerSize', 10, 'LineWidth', 2);
+        plot3(p4(1), p4(2), p4(3), 'Marker', 'o', 'Color', c2, 'MarkerSize', 10, 'LineWidth', 2);
+        plot3([x p1(1)], [y p1(2)], [z p1(3)], 'LineStyle', '-', 'LineWidth', 3, 'Color', c2);
+        plot3([x p2(1)], [y p2(2)], [z p2(3)], 'LineStyle', '-', 'LineWidth', 3, 'Color', c2);
+        plot3([x p3(1)], [y p3(2)], [z p3(3)], 'LineStyle', '-', 'LineWidth', 3, 'Color', c2);
+        plot3([x p4(1)], [y p4(2)], [z p4(3)], 'LineStyle', '-', 'LineWidth', 3, 'Color', c2);
+        %plot3([x p5(1)], [y p5(2)], [z p5(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', c2);
+        %plot3([x p6(1)], [y p6(2)], [z p6(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', c2);
         
-        plot3(r_i, s_i, zeta_i, 'Marker', 'o', 'Color', 'r');
-        plot3([x r_i], [y s_i], [z zeta_i], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'r');
+        plot3(r_i, s_i, zeta_i, 'Marker', 'o', 'Color', c1, 'MarkerFaceColor', c1);
+        plot3([x r_i], [y s_i], [z zeta_i], 'LineStyle', '-', 'LineWidth', 2, 'Color', c1);
         
         if animate_trajectories
-            plot3(x0(1), x0(2), x0(3), 'Marker', 'x', 'Color', 'k');
-            plot3(x_r(1), x_r(2), x_r(3), 'Marker', 'x', 'Color', 'k');
-            plot3(p_traj(1, :), p_traj(2, :), p_traj(3, :), 'LineStyle', ':', 'LineWidth', 1, 'Color', 'k');
+            plot3(x0(1), x0(2), x0(3), 'Marker', 'x', 'Color', c3);
+            plot3(x_r.data(1, k), x_r.data(2, k), x_r.data(3, k), 'Marker', 'x', 'Color', c3);
+            traj_plot = plot3(p_traj(1, :), p_traj(2, :), p_traj(3, :), 'LineStyle', ':', 'LineWidth', 1, 'Color', c3);
+            traj_plot.Color(4) = 0.5;
         end
         
         axis equal

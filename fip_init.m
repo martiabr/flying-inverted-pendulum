@@ -10,7 +10,8 @@ T = 4;
 h = 0.02;
 K = T / h;
 
-x_r = [0; 1; 0];
+%x_r = timeseries([1+cos(0:h:T); 1+sin(0:h:T); zeros(1, K+1)], 0:h:T);
+x_r = timeseries(zeros(3, K+1), 0:h:T);
 
 %% Initial values:
 x0 = [2; 3; -2];
@@ -23,7 +24,6 @@ sd0 = 0;
 
 %% LQR gain calculation:
 % x y z xd yd zd gamma beta alpha r s rd sd (13)
-% TODO: add other setpoints
 A_z = [0 1; 0 0]; % z z_d (2)
 B_z = [0; 1]; % a (1)
 C_z = eye(2);
