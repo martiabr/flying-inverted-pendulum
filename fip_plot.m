@@ -4,12 +4,12 @@ plot = false;
 if plot
     % TODO: plot all the stuffs, both in time and trajectories in space
 end
-    
-%% FIP animation
+
+%% FIP animation setup and configuration
 animate = true;
 animate_trajectories = true;
-rotate = true;
-write_gif = true;
+rotation = 4;  % 0: default, 1: rotation, 2: xz, 3: yz, 4: xy
+write_gif = false;
 
 L_arm = 0.25;
 p_traj = [];
@@ -23,7 +23,8 @@ ymin = min(out.x.data(2, :, :) - L_arm);
 ymax = max(out.x.data(2, :, :) + L_arm);
 zmin = min(out.x.data(3, :, :));
 zmax = max(out.x.data(3, :, :)) + 2 * L;
-    
+
+%% FIP animation
 if animate
     fig = figure(1);
     filename = 'fip.gif';
@@ -82,6 +83,7 @@ if animate
         
         if animate_trajectories
             plot3(x0(1), x0(2), x0(3), 'Marker', 'x', 'Color', 'k');
+            plot3(x_r(1), x_r(2), x_r(3), 'Marker', 'x', 'Color', 'k');
             plot3(p_traj(1, :), p_traj(2, :), p_traj(3, :), 'LineStyle', ':', 'LineWidth', 1, 'Color', 'k');
         end
         
@@ -89,7 +91,18 @@ if animate
         axis([-0.5, 2.5, -0.5, 3.5, -2, 2]);
         %axis tight
         
-        view(k/K * (azimuth_end - azimuth_start) + azimuth_start, elevation);
+        switch rotation
+            case 0
+                view(45, elevation);
+            case 1
+                view(k/K * (azimuth_end - azimuth_start) + azimuth_start, elevation);
+            case 2
+                view(0, 0);
+            case 3
+                view(90, 0);
+            case 4
+                view(2);
+        end
         
         drawnow
         hold off
