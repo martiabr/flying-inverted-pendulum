@@ -8,7 +8,7 @@ end
 %% FIP animation setup and configuration
 animate = true;
 animate_trajectories = true;
-rotation = 4;  % 0: default, 1: rotation, 2: xz, 3: yz, 4: xy
+rotation = 1;  % 0: default, 1: rotation, 2: xz, 3: yz, 4: xy
 write_gif = false;
 
 L_arm = 0.25;
