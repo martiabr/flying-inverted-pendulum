@@ -7,9 +7,11 @@ end
     
 %% FIP animation
 animate = true;
+animate_trajectories = true;
 write_gif = false;
 
 L_arm = 0.25;
+p_traj = [];
 
 xmin = min(out.x.data(1, :, :) - L_arm);
 xmax = max(out.x.data(1, :, :) + L_arm);
@@ -23,12 +25,16 @@ if animate
     filename = 'fip.gif';
     for k = 1:K
         p = out.x.data(:, :, k);
+        p_traj = [p_traj p];
         x = p(1);
         y = p(2);
         z = p(3);
         alpha = out.attitude.data(k, 1);
         beta = out.attitude.data(k, 2);
         gamma = out.attitude.data(k, 3);
+        
+        % TODO: nice colors
+        % TODO: different angles (moving, xy, xz, yz, ...)
         
         % Find position of rotors:
         R_z = [cos(alpha) -sin(alpha) 0; sin(alpha) cos(alpha) 0; 0 0 1];
@@ -40,7 +46,8 @@ if animate
         p2 = R_inv * [0; L_arm; 0] + p;
         p3 = R_inv * [-L_arm; 0; 0] + p;
         p4 = R_inv * [0; -L_arm; 0] + p;
-        p5 = R_inv * [0; 0; L_arm] + p;
+        %p5 = R_inv * [0; 0; L_arm] + p;
+        %p6 = R_inv * [0; 0; -L_arm] + p;
 
         % Find position of pendulum tip in inertial frame:
         % (assuming center of mass in middle of pendulum)
@@ -51,7 +58,6 @@ if animate
         zeta = sqrt(L^2 - r^2 - s^2);
         zeta_i = z + 2 * zeta;
 
-        % TODO: add optional trace of trajectories (gonna be slow)
         plot3(x, y, z, 'Marker', 'o', 'Color', 'r');
         grid on
         hold on
@@ -64,10 +70,15 @@ if animate
         plot3([x p2(1)], [y p2(2)], [z p2(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
         plot3([x p3(1)], [y p3(2)], [z p3(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
         plot3([x p4(1)], [y p4(2)], [z p4(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
-        plot3([x p5(1)], [y p5(2)], [z p5(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
+        %plot3([x p5(1)], [y p5(2)], [z p5(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
+        %plot3([x p6(1)], [y p6(2)], [z p6(3)], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'b');
         
         plot3(r_i, s_i, zeta_i, 'Marker', 'o', 'Color', 'r');
         plot3([x r_i], [y s_i], [z zeta_i], 'LineStyle', '-', 'LineWidth', 1.5, 'Color', 'r');
+        
+        if animate_trajectories
+            plot3(p_traj(1, :), p_traj(2, :), p_traj(3, :), 'LineStyle', '--', 'LineWidth', 1, 'Color', 'k');
+        end
         
         axis equal
         axis([-2, 2, -3.5, 0.5, -2, 2]);
