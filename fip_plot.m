@@ -8,7 +8,7 @@ end
 %% FIP animation setup and configuration
 animate = true;
 animate_trajectories = true;
-rotation = 1;  % 0: default, 1: rotation, 2: xz, 3: yz, 4: xy
+rotation = 4;  % 0: default, 1: rotation, 2: xz, 3: yz, 4: xy
 write_gif = true;
 
 L_arm = 0.25;
@@ -41,9 +41,7 @@ if animate
         alpha = out.attitude.data(k, 1);
         beta = out.attitude.data(k, 2);
         gamma = out.attitude.data(k, 3);
-        
-        % TODO: nice colors
-        
+                
         % Find position of rotors:
         R_z = [cos(alpha) -sin(alpha) 0; sin(alpha) cos(alpha) 0; 0 0 1];
         R_y = [cos(beta) 0 sin(beta); 0 1 0; -sin(beta) 0 cos(beta)];
@@ -70,6 +68,8 @@ if animate
         grid on
         hold on
         
+        % TODO: plot cross instead of 4 lines
+        
         plot3(p1(1), p1(2), p1(3), 'Marker', 'o', 'Color', c2, 'MarkerSize', 10, 'LineWidth', 2);
         plot3(p2(1), p2(2), p2(3), 'Marker', 'o', 'Color', c2, 'MarkerSize', 10, 'LineWidth', 2);
         plot3(p3(1), p3(2), p3(3), 'Marker', 'o', 'Color', c2, 'MarkerSize', 10, 'LineWidth', 2);
@@ -88,7 +88,7 @@ if animate
             plot3(x0(1), x0(2), x0(3), 'Marker', 'x', 'Color', c3);
             plot3(x_r.data(1, k), x_r.data(2, k), x_r.data(3, k), 'Marker', 'x', 'Color', c3);
             traj_plot = plot3(p_traj(1, :), p_traj(2, :), p_traj(3, :), 'LineStyle', ':', 'LineWidth', 1, 'Color', c3);
-            traj_plot.Color(4) = 0.5;
+            traj_plot.Color(4) = 0.75;
         end
         
         axis equal

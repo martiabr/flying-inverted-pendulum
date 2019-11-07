@@ -24,6 +24,8 @@ sd0 = 0;
 
 %% LQR gain calculation:
 % x y z xd yd zd gamma beta alpha r s rd sd (13)
+% TODO: add circular trajectory
+% TODO: MPC
 A_z = [0 1; 0 0]; % z z_d (2)
 B_z = [0; 1]; % a (1)
 C_z = eye(2);
