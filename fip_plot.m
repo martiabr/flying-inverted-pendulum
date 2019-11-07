@@ -1,15 +1,55 @@
 %% FIP plot
-plot = false;
+plot_graphs = true;
+t = 0:h:T;
 
-if plot
-    % TODO: plot all the stuffs, both in time and trajectories in space
+if plot_graphs
+    % TODO: plot all the stuffs, both in time and trajectories in space,
+    % and possible state space? rs-space for instance?
+    
+    style1 = hgexport('factorystyle');
+    style1.Format = 'png';
+    style1.Width = 6;
+    style1.Height = 2.5;
+    style1.Resolution = 300;
+    style1.Units = 'inch';
+    style1.FixedFontSize = 12;
+
+    % Attitude plot:
+    f1 = figure(1);
+    plot(t, out.attitude.data(:, :));
+    grid on
+    legend('\gamma', '\beta', '\alpha');
+    title('Attitude');
+    xlabel('t[s]');
+    ylabel('\Theta[rad]');
+    hgexport(f1,'att.png',style1,'Format','png');
+    
+    % Quadrotor position plot:
+    f2 = figure(2);
+    plot(t, squeeze(out.x.data(:, :, :)));
+    grid on
+    legend('x', 'y', 'z');
+    title('Quadrotor position');
+    xlabel('t[s]');
+    ylabel('x[m]');
+    hgexport(f2,'x.png',style1,'Format','png');
+    
+    % Pole position plot:
+    f3 = figure(3);
+    plot(t, out.rs.data(:, :));
+    grid on
+    legend('r', 's');
+    title('Pole position');
+    xlabel('t[s]');
+    ylabel('rs[m]');
+    hgexport(f3,'rs.png',style1,'Format','png');
 end
 
 %% FIP animation setup and configuration
-animate = true;
+animate = false;
 animate_trajectories = true;
 rotation = 4;  % 0: default, 1: rotation, 2: xz, 3: yz, 4: xy
-write_gif = true;
+write_gif = false;
 
 L_arm = 0.25;
 p_traj = [];
@@ -30,7 +70,8 @@ zmax = max(out.x.data(3, :, :)) + 2 * L;
 
 %% FIP animation
 if animate
-    fig = figure(1);
+    fig = figure(5);
+    set(gcf,'color','w');
     filename = 'fip.gif';
     for k = 1:K
         p = out.x.data(:, :, k);

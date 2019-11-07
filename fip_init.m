@@ -24,8 +24,9 @@ sd0 = 0;
 
 %% LQR gain calculation:
 % x y z xd yd zd gamma beta alpha r s rd sd (13)
-% TODO: add circular trajectory
+% TODO: extend to one big LQR, then add circular trajectory
 % TODO: MPC
+% TODO: discrete time is better (c2d + dlqr)
 A_z = [0 1; 0 0]; % z z_d (2)
 B_z = [0; 1]; % a (1)
 C_z = eye(2);

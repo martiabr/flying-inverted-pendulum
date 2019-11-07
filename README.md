@@ -9,6 +9,10 @@ Matlab simulation of a flying inverted pendulum. The implementation is based on 
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<img width="1604" src="results/fip4.gif">  xz |  <img width="1604" src="results/fip5.gif"> yz|<img width="1604" src="results/fip6.gif"> xy|
 
+![Attitude](results/att.png)
+![Quadrotor position](results/x.png)
+![Pole position](results/rs.png)
+
 ![Result](results/fip2.gif)
 Constant position regulation with sinusoidal input
 
